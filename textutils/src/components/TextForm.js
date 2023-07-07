@@ -53,6 +53,14 @@ export default function TextForm(props) {
       setText(newText.join(" "))
       props.showAlert("Removed Extra Spaces","success");
     }
+    const countWords = (text) =>{
+      let words;
+      if( text===" " || text.length === 0)
+        words = 0;
+      else
+        words = text.trim().split(/\s+/).length;
+      return words;
+    }
 
   return (
     <>
@@ -66,11 +74,11 @@ export default function TextForm(props) {
         <button className="btn btn-dark mx-1" onClick={handleClearText}>Clear Text</button>
         <button className={`btn btn-dark mx-1 ${isBold ? 'active' : ''}`}   onClick={handleBold}>Bold</button>
         <button className="btn btn-dark mx-1" onClick={handleCopy}>CopyText</button>
-        <button className="btn btn-dark mx-1" onClick={handleExtraSpaces}>Remove Extra Spaces</button>
+        <button className="btn btn-dark mx-1" onClick={handleExtraSpaces}onChange={countWords}>Remove Extra Spaces</button>
       </div>
       <div className="container my-3">
         <h2>Your Text Summary</h2>
-        <p>{text.split(" ").length} words and {text.length} characters</p>
+        <p>{text.trim() === '' ? 0 : text.match(/\S+/g).length} words and {text.replace(/\s+/g, '').length} characters</p>
         <p>Time taken to read the text: {0.008 * text.split(" ").length}</p>
         <h2>Preview</h2>
         <p style={{ fontWeight: isBold ? 'bold' : 'normal', color: props.mode === 'dark' ? 'white' : 'black' }}>{text.length>0?text:"Enter something in the text box to preview it here"}</p>
